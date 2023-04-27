@@ -126,17 +126,22 @@ class CLT:
         return prob
 
 
-'''
-    You can read the dataset using
-    dataset=Util.load_dataset(path-of-the-file)
-    
-    To learn Chow-Liu trees, you can use
-    clt=CLT()
-    clt.learn(dataset)
-    
-    To compute average log likelihood of a dataset, you can use
-    clt.computeLL(dataset)/dataset.shape[0]
-'''
+if __name__ == '__main__':
+    dataset_list = ['accidents', 'baudio', 'bnetflix', 'jester', 'kdd', 'msnbc', 'nltcs', 'plants', 'pumsb_star', 'tretail']
+    # You can read the dataset using
+    for dataset_name in dataset_list:
+        training = '../datset/' + dataset_name + '.ts.data'
+        dataset=Util.load_dataset(training)
+
+        # To learn Chow-Liu trees, you can use
+        clt=CLT()
+        clt.learn(dataset)
+
+        # To compute average log likelihood of a dataset, you can use
+        test = '../dataset/' + dataset_name + '.test.data'
+        dataset = Util.load_dataset(test)
+        ll = clt.computeLL(dataset)/dataset.shape[0]
+        print(f'Log Likelihood for {dataset_name}: {ll}')
 
 
     
