@@ -130,7 +130,7 @@ if __name__ == '__main__':
     dataset_list = ['accidents', 'baudio', 'bnetflix', 'jester', 'kdd', 'msnbc', 'nltcs', 'plants', 'pumsb_star', 'tretail']
     # You can read the dataset using
     for dataset_name in dataset_list:
-        training = '../datset/' + dataset_name + '.ts.data'
+        training = '../dataset/' + dataset_name + '.ts.data'
         dataset=Util.load_dataset(training)
 
         # To learn Chow-Liu trees, you can use
