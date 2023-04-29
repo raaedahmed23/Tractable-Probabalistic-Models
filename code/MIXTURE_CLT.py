@@ -97,9 +97,8 @@ class MIXTURE_CLT():
 
 if __name__ == '__main__':
 
-    # dataset_list = ['accidents', 'baudio', 'bnetflix', 'jester', 'kdd', 'msnbc', 'nltcs', 'plants', 'pumsb_star', 'tretail']
-    dataset_list = ['accidents']
-    k_values = [2, 5, 10]
+    dataset_list = ['accidents', 'baudio', 'bnetflix', 'jester', 'kdd', 'msnbc', 'nltcs', 'plants', 'pumsb_star', 'tretail']
+    k_values = [2, 5, 10, 20]
     ll_vals = list()
     for dataset_name in dataset_list:
         for k in k_values:
@@ -109,13 +108,13 @@ if __name__ == '__main__':
             dataset=Util.load_dataset(training)
             mix.learn(dataset, n_components= k, max_iter=1, epsilon= 1e-1)
 
-            validation = training = '../dataset/' + dataset_name + '.valid.data'
+            validation = '../dataset/' + dataset_name + '.valid.data'
             valid = Util.load_dataset(validation)
 
             ll_vals.append(mix.computeLL(valid)/valid.shape[0])
 
         ll = np.asarray(ll_vals)
-        print(f'K for {dataset_name}: {k_values[np.argmin(ll)]}')
+        print(f'K for {dataset_name}: {k_values[np.argmax(ll)]}')
 
 
 
