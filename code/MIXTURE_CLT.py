@@ -98,15 +98,17 @@ class MIXTURE_CLT():
 if __name__ == '__main__':
 
     dataset_list = ['accidents', 'baudio', 'bnetflix', 'jester', 'kdd', 'msnbc', 'nltcs', 'plants', 'pumsb_star', 'tretail']
+    ### VALIDATION
+    '''
     k_values = [2, 5, 10, 20]
-    ll_vals = list()
     for dataset_name in dataset_list:
+        ll_vals = list()
         for k in k_values:
             mix = MIXTURE_CLT()
 
             training = '../dataset/' + dataset_name + '.ts.data'
             dataset=Util.load_dataset(training)
-            mix.learn(dataset, n_components= k, max_iter=1, epsilon= 1e-1)
+            mix.learn(dataset, n_components= k, max_iter=3, epsilon= 1e-1)
 
             validation = '../dataset/' + dataset_name + '.valid.data'
             valid = Util.load_dataset(validation)
@@ -115,7 +117,30 @@ if __name__ == '__main__':
 
         ll = np.asarray(ll_vals)
         print(f'K for {dataset_name}: {k_values[np.argmax(ll)]}')
+    '''
+    
+    
+    # After running validation on each dataset, the best value for k is found and stored in k_list
+    k_list = [20, 2, 10, 10, 20, 5, 2, 2, 10, 2]
+    ### TESTING
+    
+    for i, dataset_name in enumerate(dataset_list):
+        ll_vals = []
+        for itr in range(5):
+            training = dataset_name + '.ts.data'
+            dataset=Util.load_dataset(training)
 
+            # To learn Chow-Liu trees, you can use
+            mix=MIXTURE_CLT()
+            mix.learn(dataset, n_components = k_list[i], max_iter=1, epsilon=1e-1)
+
+            # To compute average log likelihood of a dataset, you can use
+            test = dataset_name + '.test.data'
+            dataset = Util.load_dataset(test)
+            ll = mix.computeLL(dataset)/dataset.shape[0]
+            ll_vals.append(ll)
+
+        print(f'{dataset_name} dataset-- Average ll: {np.mean(ll_vals)} ;; StDev: {np.std(ll_vals)}')
 
 
     # mix_clt=MIXTURE_CLT()
